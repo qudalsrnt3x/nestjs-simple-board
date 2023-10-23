@@ -1,5 +1,7 @@
 import { Injectable, NotFoundException, Body, Delete } from '@nestjs/common';
 import { Post } from './entity/post.entity';
+import { CreatePostDto } from './dto/create-post.dto';
+import { UpdatePostDto } from './dto/update-post.dto';
 
 @Injectable()
 export class PostsService {
@@ -38,7 +40,7 @@ export class PostsService {
         return findPost;
     }
 
-    create(data) {
+    create(data: CreatePostDto) {
         const newPost = {
             id: this.getNextId(),
             ...data
@@ -47,7 +49,7 @@ export class PostsService {
         return newPost;
     }
 
-    update(id: number, data: any) {
+    update(id: number, data: UpdatePostDto) {
         const index = this.getPostId(id);
         if(index > -1) {
             this.posts[index] = {

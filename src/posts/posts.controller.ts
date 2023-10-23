@@ -1,5 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { PostsService } from './posts.service';
+import { CreatePostDto } from './dto/create-post.dto';
+import { UpdatePostDto } from './dto/update-post.dto';
 
 @Controller('posts')
 export class PostsController {
@@ -18,12 +20,12 @@ export class PostsController {
     }
 
     @Post()
-    create(@Body() data) {
+    create(@Body() data: CreatePostDto) { // @Body(new ValidationPipe())로도 사용가능
         return this.postsService.create(data);
     }
 
     @Put(':id')
-    update(@Param('id') id: number, @Body() data) {
+    update(@Param('id') id: number, @Body() data: UpdatePostDto) {
         return this.postsService.update(id, data);
     }
 
