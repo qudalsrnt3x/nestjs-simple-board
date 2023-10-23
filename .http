@@ -1,0 +1,24 @@
+GET http://localhost:3000/posts
+
+###
+GET http://localhost:3000/posts/1
+
+###
+POST http://localhost:3000/posts
+Content-Type: application/json
+
+{
+    "title": "제목이다.",
+    "content": "내용이다."
+}
+
+###
+PUT http://localhost:3000/posts/1
+Content-Type: application/json
+
+{
+    "content": "수정 내용"
+}
+
+###
+DELETE http://localhost:3000/posts/2
