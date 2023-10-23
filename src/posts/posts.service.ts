@@ -6,26 +6,7 @@ import { UpdatePostDto } from './dto/update-post.dto';
 @Injectable()
 export class PostsService {
     private posts: Post[] = [
-        {
-            id: 1,
-            title: 'title1',
-            content: 'content1'
-        },
-        {
-            id: 2,
-            title: 'title2',
-            content: 'content2'
-        },
-        {
-            id: 3,
-            title: 'title3',
-            content: 'content3'
-        },
-        {
-            id: 4,
-            title: 'title4',
-            content: 'content4'
-        },
+      
     ];
 
     findAll() {
@@ -45,7 +26,7 @@ export class PostsService {
             id: this.getNextId(),
             ...data
         };
-        this.posts.push(newPost);
+        // this.posts.push(newPost);
         return newPost;
     }
 
