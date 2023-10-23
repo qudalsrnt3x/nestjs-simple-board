@@ -2,19 +2,34 @@ import { Injectable, NotFoundException, Body, Delete } from '@nestjs/common';
 import { Post } from './entity/post.entity';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
+import { Repository } from 'typeorm';
+import { User } from 'src/users/entity/user.entity';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class PostsService {
-    private posts: Post[] = [
-      
-    ];
+    constructor(
+        @InjectRepository(User)
+        private userRepository: Repository<User>,
+        @InjectRepository(Post)
+        private postRepository: Repository<Post>
+    ) {}
 
-    findAll() {
-        return this.posts;
+    private posts: Post[] = [];
+
+    async findAll() {
+        return this.postRepository.find();
     }
 
-    findById(id: number) {
-        const findPost = this.posts.find(post => post.id === id);
+    async findById(id: number) {
+        const findPost = await this.postRepository.findOne({
+            where: {
+                id
+            },
+            // relations: {
+            //     user: true
+            // }
+        });
         if (!findPost) {
             throw new NotFoundException(`Post ${id} not found`);
         }
@@ -22,12 +37,7 @@ export class PostsService {
     }
 
     create(data: CreatePostDto) {
-        const newPost = {
-            id: this.getNextId(),
-            ...data
-        };
-        // this.posts.push(newPost);
-        return newPost;
+        return this.postRepository.save(data);
     }
 
     update(id: number, data: UpdatePostDto) {

@@ -18,7 +18,9 @@ export class Post {
     @UpdateDateColumn()
     updatedAt: Date;
 
-    @ManyToOne(() => User, (user) => user.posts)
+    @ManyToOne(() => User, (user) => user.posts, {
+        lazy: true
+    })
     @JoinColumn({name: 'userId'})
     user: User;
 }

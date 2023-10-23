@@ -1,8 +1,8 @@
-import { type } from 'os';
 import { Post } from 'src/posts/entity/post.entity';
-import { Column, OneToMany } from 'typeorm';
+import { BeforeInsert, Column, OneToMany } from 'typeorm';
 import { PrimaryGeneratedColumn } from 'typeorm';
 import { Entity } from 'typeorm';
+import * as crypto from 'crypto';
 
 @Entity()
 export class User {
@@ -15,12 +15,20 @@ export class User {
     @Column({select: false})
     password: string;
 
+    @BeforeInsert()
+    encodePassword() {
+        this.password = crypto.createHmac('sha256', this.password).digest('hex');
+    }
+
     @Column()
     name: string;
 
     @Column({ default: true })
     isActive: boolean;
 
-    @OneToMany(() => Post, (post) => post.user)
-    posts: Post[];
+    @OneToMany(() => Post, (post) => post.user, {
+        onDelete: 'CASCADE',
+        lazy: true
+    })
+    posts: Promise<Post[]>;
 }
