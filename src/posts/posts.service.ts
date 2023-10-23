@@ -15,59 +15,50 @@ export class PostsService {
         private postRepository: Repository<Post>
     ) {}
 
-    private posts: Post[] = [];
-
     async findAll() {
         return this.postRepository.find();
     }
 
     async findById(id: number) {
-        const findPost = await this.postRepository.findOne({
-            where: {
-                id
-            },
-            // relations: {
-            //     user: true
-            // }
-        });
+        const findPost = await this.getPostById(id);
         if (!findPost) {
             throw new NotFoundException(`Post ${id} not found`);
         }
         return findPost;
     }
 
-    create(data: CreatePostDto) {
-        return this.postRepository.save(data);
-    }
-
-    update(id: number, data: UpdatePostDto) {
-        const index = this.getPostId(id);
-        if(index > -1) {
-            this.posts[index] = {
-                ...this.posts[index],
-                ...data
+    async create(data: CreatePostDto) {
+        const findUser = await this.userRepository.findOne({
+            where: {
+                id: 1
             }
-        } else {
-            throw new NotFoundException(`Post ${id} not found`);
-        }
-        return this.posts[index];
+        });
+        data.user = findUser;
+        return await this.postRepository.save(data);
+        
     }
 
-    deleteById(id: number) {
-        const index = this.getPostId(id);
-        if(index > -1) {
-            this.posts.splice(index, 1);
-        } else {
+    async update(id: number, data: UpdatePostDto) {
+        const findPost = await this.getPostById(id);
+        if (!findPost) {
             throw new NotFoundException(`Post ${id} not found`);
         }
+        return this.postRepository.update(id, {...data});
+    }
+
+    async deleteById(id: number) {
+        const findPost = await this.getPostById(id);
+        if (!findPost) {
+            throw new NotFoundException(`Post ${id} not found`);
+        }
+        this.postRepository.remove(findPost);
         return { success: true };
     }
 
-    getPostId(id: number) {
-        return this.posts.findIndex(post => post.id === id);
-    }
-
-    getNextId() {
-        return this.posts.sort((a, b) => (b.id - a.id))[0].id + 1;
+    async getPostById(id: number) {
+        return await this.postRepository.findOneBy({
+            id
+        });
     }
 }
+
