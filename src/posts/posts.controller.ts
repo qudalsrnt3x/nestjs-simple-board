@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Logger, Param, Post, Put } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
@@ -9,8 +9,11 @@ export class PostsController {
         private readonly postsService: PostsService
     ) {}
 
+    private readonly logger = new Logger(PostsController.name);
+
     @Get()
     findAll() {
+        this.logger.log('findAll');
         return this.postsService.findAll();
     }
 
