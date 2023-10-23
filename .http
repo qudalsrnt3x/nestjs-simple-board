@@ -8,8 +8,8 @@ POST http://localhost:3000/posts
 Content-Type: application/json
 
 {
-    "title": "제목이다.",
-    "content": "내용이다."
+    "title": "제목이다.1",
+    "content": "내용이다.2"
 }
 
 ###
@@ -25,3 +25,6 @@ DELETE http://localhost:3000/posts/2
 
 ###
 GET http://localhost:3000
+
+###
+GET http://localhost:3000/users

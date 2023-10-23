@@ -28,13 +28,20 @@ export class PostsService {
     }
 
     async create(data: CreatePostDto) {
+        const savedPost = await this.postRepository.save(data);
+
         const findUser = await this.userRepository.findOne({
             where: {
                 id: 1
             }
         });
-        data.user = findUser;
-        return await this.postRepository.save(data);
+        if (!findUser) {
+            throw new NotFoundException(`UserId 1 not found`);
+        }
+        
+        (await findUser.posts).push(savedPost);
+        this.userRepository.save(findUser);
+        return savedPost;
         
     }
 

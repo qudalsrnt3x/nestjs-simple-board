@@ -31,4 +31,7 @@ export class User {
         lazy: true
     })
     posts: Promise<Post[]>;
+
+    @Column({insert: false, select:false, update: false, nullable: true})
+    postCount?: number;
 }

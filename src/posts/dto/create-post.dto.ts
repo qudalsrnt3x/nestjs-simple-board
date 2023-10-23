@@ -8,7 +8,5 @@ export class CreatePostDto {
     @IsString()
     @IsNotEmpty()
     readonly content: string;
-
-    user: User;
     
 }
