@@ -49,3 +49,9 @@ Content-Type: application/json
     "username": "testuser2",
     "password": "12345678"
 }
+
+###
+# 유저 ME
+GET http://localhost:3000/me
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyMiIsIm5hbWUiOiJ0ZXN0IiwiaWF0IjoxNjk4MTI5MjUyLCJleHAiOjE2OTgxMzI4NTJ9.K6V1v8hSYJ0fBburPweCzg_nPgrd-Em0cfJOi1CLKrA
