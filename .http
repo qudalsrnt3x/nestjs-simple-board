@@ -41,8 +41,8 @@ Content-Type: application/json
 }
 
 ###
-# 유저 로그인
-POST http://localhost:3000/users/login
+# 유저 로그인 (passport)
+POST http://localhost:3000/login
 Content-Type: application/json
 
 {
