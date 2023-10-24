@@ -1,12 +1,15 @@
 import { UsersService } from './../users/users.service';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { hash, compare } from 'bcrypt';
+import { JwtService } from '@nestjs/jwt';
+import { User } from 'src/users/entity/user.entity';
 
 
 @Injectable()
 export class AuthService {
     constructor(
-        private readonly UsersService: UsersService
+        private readonly UsersService: UsersService,
+        private readonly jwtService: JwtService
     ) {}
 
     // 로그인 검증 로직
@@ -24,5 +27,16 @@ export class AuthService {
         }
 
         return null;
+    }
+
+    async login(user: User) {
+        const payload = {
+            username: user.username,
+            name: user.name
+        };
+
+        return {
+            accessToken: this.jwtService.sign(payload)
+        };
     }
 }

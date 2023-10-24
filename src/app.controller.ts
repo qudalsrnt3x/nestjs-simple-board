@@ -2,12 +2,15 @@ import { Controller, Get, Ip, Post, Query, Request, UseGuards } from '@nestjs/co
 import { AppService } from './app.service';
 import { ConfigService } from '@nestjs/config';
 import { AuthGuard } from '@nestjs/passport';
+import { LocalAuthGuard } from './auth/local-auth.guard';
+import { AuthService } from './auth/auth.service';
 
 @Controller()
 export class AppController {
   constructor(
     private readonly appService: AppService,
-    private readonly configService: ConfigService
+    private readonly configService: ConfigService,
+    private readonly authService: AuthService
     ) {}
 
   @Get()
@@ -24,10 +27,10 @@ export class AppController {
     return `Hello ${name}`;
   }
 
-  @UseGuards(AuthGuard('local'))
+  @UseGuards(LocalAuthGuard) // authStrategy를 통해 return 받은 user 값이 req에 들어가게 된다.
   @Post('login')
   async login(@Request() req) {
-     return req.user;
+     return this.authService.login(req.user);
   }
 
 }
