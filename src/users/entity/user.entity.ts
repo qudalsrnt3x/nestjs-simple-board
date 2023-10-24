@@ -3,6 +3,7 @@ import { BeforeInsert, Column, OneToMany } from 'typeorm';
 import { PrimaryGeneratedColumn } from 'typeorm';
 import { Entity } from 'typeorm';
 import * as crypto from 'crypto';
+import { Exclude } from 'class-transformer';
 
 @Entity()
 export class User {
@@ -13,6 +14,7 @@ export class User {
     username: string;
 
     @Column()
+    @Exclude()
     password: string;
 
     // @BeforeInsert()
