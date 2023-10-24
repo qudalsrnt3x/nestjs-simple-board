@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, Body, Delete } from '@nestjs/common';
+import { Injectable, NotFoundException, Body, Delete, UnauthorizedException } from '@nestjs/common';
 import { Post } from './entity/post.entity';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
@@ -27,36 +27,42 @@ export class PostsService {
         return findPost;
     }
 
-    async create(data: CreatePostDto) {
-        const savedPost = await this.postRepository.save(data);
-
+    async create(data: CreatePostDto, userInfo) {
         const findUser = await this.userRepository.findOne({
             where: {
-                id: 1
+                id: userInfo.id
             }
         });
         if (!findUser) {
-            throw new NotFoundException(`UserId 1 not found`);
+            throw new NotFoundException(`UserId ${userInfo.id} not found`);
         }
-        
-        (await findUser.posts).push(savedPost);
-        this.userRepository.save(findUser);
-        return savedPost;
-        
+        const createPost = this.postRepository.create({
+            title: data.title,
+            content: data.content,
+            user: findUser
+        });
+        await this.postRepository.save(createPost);
+        return { success: true };
     }
 
-    async update(id: number, data: UpdatePostDto) {
+    async update(id: number, data: UpdatePostDto, userId: number) {
         const findPost = await this.getPostById(id);
         if (!findPost) {
             throw new NotFoundException(`Post ${id} not found`);
+        }
+        if (findPost.userId !== userId) {
+            throw new UnauthorizedException();
         }
         return this.postRepository.update(id, {...data});
     }
 
-    async deleteById(id: number) {
+    async deleteById(id: number, userId: number) {
         const findPost = await this.getPostById(id);
         if (!findPost) {
             throw new NotFoundException(`Post ${id} not found`);
+        }
+        if (findPost.user.id !== userId) {
+            throw new UnauthorizedException();
         }
         this.postRepository.remove(findPost);
         return { success: true };

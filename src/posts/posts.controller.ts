@@ -1,7 +1,10 @@
-import { Body, Controller, Delete, Get, Logger, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Logger, Param, Post, Put, UseGuards, Request, UnauthorizedException } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { UserInfo } from 'src/decorators/user-info.decorator';
+import { userInfo } from 'os';
 
 @Controller('posts')
 export class PostsController {
@@ -22,19 +25,29 @@ export class PostsController {
         return this.postsService.findById(id);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Post()
-    create(@Body() data: CreatePostDto) { // @Body(new ValidationPipe())로도 사용가능
-        return this.postsService.create(data);
+    create(
+        @Body() data: CreatePostDto,
+        @UserInfo() userInfo
+    ) { // @Body(new ValidationPipe())로도 사용가능
+        if(!userInfo) throw new UnauthorizedException();
+        return this.postsService.create(data, userInfo);
     }
 
     @Put(':id')
-    update(@Param('id') id: number, @Body() data: UpdatePostDto) {
-        return this.postsService.update(id, data);
+    @UseGuards(JwtAuthGuard)
+    update(
+        @Param('id') id: number, 
+        @Body() data: UpdatePostDto,
+        @UserInfo() userInfo) {
+        return this.postsService.update(id, data, userInfo.id);
     }
 
     @Delete(':id')
-    delete(@Param('id') id: number) {
-        return this.postsService.deleteById(id);
+    @UseGuards(JwtAuthGuard)
+    delete(@Param('id') id: number, @UserInfo() userInfo) {
+        return this.postsService.deleteById(id, userInfo.id);
     }
     
 }
