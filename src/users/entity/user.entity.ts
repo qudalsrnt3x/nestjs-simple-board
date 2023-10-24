@@ -15,10 +15,10 @@ export class User {
     @Column({select: false})
     password: string;
 
-    @BeforeInsert()
-    encodePassword() {
-        this.password = crypto.createHmac('sha256', this.password).digest('hex');
-    }
+    // @BeforeInsert()
+    // encodePassword() {
+    //     this.password = crypto.createHmac('sha256', this.password).digest('hex');
+    // }
 
     @Column()
     name: string;
