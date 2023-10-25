@@ -1,4 +1,4 @@
-import { Post } from 'src/posts/entity/post.entity';
+import { Post } from 'src/posts/entities/post.entity';
 import { BeforeInsert, Column, OneToMany } from 'typeorm';
 import { PrimaryGeneratedColumn } from 'typeorm';
 import { Entity } from 'typeorm';

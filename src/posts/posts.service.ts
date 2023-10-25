@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException, Body, Delete, UnauthorizedException } from '@nestjs/common';
-import { Post } from './entity/post.entity';
+import { Post } from './entities/post.entity';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { Repository } from 'typeorm';
-import { User } from 'src/users/entity/user.entity';
+import { User } from 'src/users/entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()

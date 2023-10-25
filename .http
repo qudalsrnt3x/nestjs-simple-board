@@ -2,12 +2,12 @@
 GET http://localhost:3000/posts
 
 ###
-GET http://localhost:3000/posts/3
+GET http://localhost:3000/posts/1
 
 ###
 POST http://localhost:3000/posts
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwidXNlcm5hbWUiOiJ0ZXN0dXNlcjIiLCJuYW1lIjoidGVzdCIsImlhdCI6MTY5ODEzMDUzOCwiZXhwIjoxNjk4MTM0MTM4fQ.SaoRqNbpl4fc6VXN0fMcPrqcE3N55yyRWTDauOaNx48
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJ0ZXN0dXNlcjIiLCJuYW1lIjoidGVzdCIsImlhdCI6MTY5ODIwMDM5OCwiZXhwIjoxNjk4MjAzOTk4fQ.ILz_2saSjqsu-x6fctxq4dvqIbh5sFU_3BlfUGmNBXc
 
 {
     "title": "제목이다.1",
@@ -17,7 +17,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwidXNlcm5hb
 ###
 PUT http://localhost:3000/posts/8
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwidXNlcm5hbWUiOiJ0ZXN0dXNlcjIiLCJuYW1lIjoidGVzdCIsImlhdCI6MTY5ODEzNTA0MSwiZXhwIjoxNjk4MTM4NjQxfQ.2_Rgv1cbTdHPKnil8-gVZgWGcr3mvwLSpIYSmStLe6I
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJ0ZXN0dXNlcjIiLCJuYW1lIjoidGVzdCIsImlhdCI6MTY5ODIwMDM5OCwiZXhwIjoxNjk4MjAzOTk4fQ.ILz_2saSjqsu-x6fctxq4dvqIbh5sFU_3BlfUGmNBXc
 
 {
     "content": "내용만 수정가능"
